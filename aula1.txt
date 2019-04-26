@@ -1,0 +1,59 @@
+1) Feito usando a GUI
+
+2) a) CREATE TABLE Ambulatorios (
+	nroa int,
+	andar numeric(3) NOT NULL,
+	capacidade smallint,
+	PRIMARY KEY(nroa)
+)
+
+b) CREATE TABLE Medicos (
+	codm int,
+	nome varchar(40) NOT NULL,
+	idade smallint NOT NULL,
+	especialidade char(20),
+	CPF numeric(11) UNIQUE,
+	cidade varchar(30),
+	nroa int,
+	PRIMARY KEY(codm),
+	FOREIGN KEY(nroa) REFERENCES Ambulatorios
+)
+
+c) CREATE TABLE Pacientes (
+	codp int,
+	nome varchar(40) NOT NULL,
+	idade smallint NOT NULL,
+	cidade varchar(30),
+	CPF numeric(11) UNIQUE,
+	doenca varchar(40) NOT NULL,
+	PRIMARY KEY(codp)
+)
+
+d) CREATE TABLE FUNCIONARIOS (
+	codf int,
+	nome varchar(40) NOT NULL,
+	idade smallint,
+	CPF numeric(11) UNIQUE,
+	cidade varchar(30),
+	salario numeric(10),
+	cargo varchar(20),
+	PRIMARY KEY(codf)
+)
+
+// por algum motivo inicialmente a tabela nao possuia o atributo cargo
+// precisei usar o seguinte comando:
+ ALTER TABLE Funcionarios ADD cargo varchar(20)
+
+e) CREATE TABLE Consultas (
+	codm int,
+	codp int,
+	data date,
+	hora time,
+	PRIMARY KEY(codm, data, hora),
+	FOREIGN KEY(codm) REFERENCES Medicos,
+	FOREIGN KEY(codp) REFERENCES Pacientes
+)
+
+3) CREATE UNIQUE INDEX m_index on Medicos(cpf)
+
+4) ALTER TABLE Funcionarios DROP COLUMN cargo
